@@ -6,6 +6,9 @@ var bcrypt = require('bcrypt-nodejs');
 // Cargar Modelos
 var User = require('../models/user');
 
+// Cargar JWT
+var jwt = require('../services/jwt');
+
 // Definir acciones
 
 // Metodo de Prueba
@@ -14,6 +17,7 @@ function pruebas(req, res){
         message: 'Probando el controlador de Usuarios y la accion pruebas'
     })
 }
+
 // Metodo de Registro de usuario
 function saveUser(req, res){
     // Crear el Objeto del Usuario
@@ -87,6 +91,15 @@ function login(req, res){
             if(user){
                 bcrypt.compare(password, user.password, (err, check) => {
                     if(check){
+                        // Comprobar si existe gettoken y Generar el Token
+                        if (params.gettoken) {
+                            // Devolver el Token
+                            res.status(200).send({
+                                token: jwt.createToken(user)
+                            });
+                        } else {
+                            
+                        }
                         res.status(200).send({user});
                     }else{
                         res.status(404).send({
