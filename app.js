@@ -1,24 +1,21 @@
 'use strict'
 
 var express = require('express');
-var bodyParse = require('body-parser');
+var bodyParser = require('body-parser');
 
 var app = express();
 
 // Cargar Rutas
-
+var user_routes = require('./routes/user');
 
 // middleware de body-parser
-app.use(bodyParse.urlencoded({extended: false}));
-app.use(bodyParse.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // Configurar cabeceras y cors
 
 
-// rutas body-parser
-
-app.get('/probando', (req, res) =>{
-    res.status(200).send({message: 'Este es el metodo probando'});
-});
+// rutas base
+app.use('/api', user_routes);
 
 module.exports = app;
