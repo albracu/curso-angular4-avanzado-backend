@@ -4,9 +4,10 @@
   "description": "Api ResFul del proyecto del curso Angular 4 Avanzado",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Alfredo Bravo Cuero",
+  "author": "Alfredo Brmongodavo Cuero",
   "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
