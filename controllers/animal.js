@@ -49,9 +49,31 @@ function saveAnimal(req, res){
     }
 }
 
+// Metodo para listar Animales
+function getAnimals(req, res){
+    Animal.find({}).populate({path: 'user'}).exec((err, animals) => {
+        if(err){
+            res.status(500).send({
+                message: 'Error en la peticion'
+            })
+        }else{
+            if(!animals){
+                res.status(404).send({
+                    message: 'No hay animales'
+                })
+            }else{
+                res.status(200).send({
+                    animals
+                })
+            }
+        }
+    });
+}
+
 // Exportar acciones
 module.exports = {
     pruebasAnimal,
-    saveAnimal
+    saveAnimal,
+    getAnimals
     
 };

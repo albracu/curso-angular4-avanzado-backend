@@ -14,4 +14,6 @@ api.get('/pruebas-animales', md_auth.ensureAuth, AnimalController.pruebasAnimal)
 
 api.post('/animal', md_auth.ensureAuth, AnimalController.saveAnimal);
 
+api.get('/get-animals', AnimalController.getAnimals);
+
 module.exports = api;
