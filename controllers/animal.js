@@ -93,11 +93,37 @@ function getAnimal(req, res){
     })
 }
 
+// Metodo para actualizar un Animal
+function updateAnimal(req, res){
+    var animalId = req.params.id;
+    var update = req.body;
+
+    // Si le pasamos como tercer parametro el objeto {new: true}, nos devuelve el objeto ya actualizado
+    Animal.findByIdAndUpdate(animalId, update, {new: true}, (err, animalUpdated) => {
+        if(err){
+            res.status(500).send({
+                message: 'Error en la peticion'
+            });
+        }else{
+            if(!animalUpdated){
+                res.status(404).send({
+                    message: 'No se ha actualizado el Animal'
+                })
+            }else{
+                res.status(200).send({
+                    animal: animalUpdated
+                })
+            }
+        }
+    });
+}
+
 // Exportar acciones
 module.exports = {
     pruebasAnimal,
     saveAnimal,
     getAnimals,
-    getAnimal
+    getAnimal,
+    updateAnimal
     
 };
