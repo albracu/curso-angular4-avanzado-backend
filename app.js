@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 // Configurar cabeceras y cors
 
 
-// rutas base
+// Definir rutas base
 app.use('/api', user_routes);
 app.use('/api', animal_routes);
 

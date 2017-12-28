@@ -70,10 +70,34 @@ function getAnimals(req, res){
     });
 }
 
+// Metodo para devolver un Animal concreto
+function getAnimal(req, res){
+    var animalId = req.params.id;
+
+    Animal.findById(animalId).populate({path: 'user'}).exec((err, animal) =>{
+        if(err){
+            res.status(500).send({
+                message: 'Error en la peticion'
+            })
+        }else{
+            if(!animal){
+                res.status(404).send({
+                    message: 'El Animal no existe'
+                })
+            }else{
+                res.status(200).send({
+                    animal
+                })
+            }
+        }
+    })
+}
+
 // Exportar acciones
 module.exports = {
     pruebasAnimal,
     saveAnimal,
-    getAnimals
+    getAnimals,
+    getAnimal
     
 };

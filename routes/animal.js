@@ -16,4 +16,6 @@ api.post('/animal', md_auth.ensureAuth, AnimalController.saveAnimal);
 
 api.get('/get-animals', AnimalController.getAnimals);
 
+api.get('/get-animal/:id', AnimalController.getAnimal);
+
 module.exports = api;
