@@ -24,4 +24,6 @@ api.post('/upload-image-animal/:id', [md_auth.ensureAuth, md_upload], AnimalCont
 
 api.get('/get-image-animal/:imageFile', AnimalController.getImageFile);
 
+api.delete('/animal/:id', md_auth.ensureAuth, AnimalController.deleteAnimal);
+
 module.exports = api;
