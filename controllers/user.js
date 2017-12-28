@@ -14,7 +14,8 @@ var jwt = require('../services/jwt');
 // Metodo de Prueba
 function pruebas(req, res){
     res.status(200).send({
-        message: 'Probando el controlador de Usuarios y la accion pruebas'
+        message: 'Probando el controlador de Usuarios y la accion pruebas',
+        user: req.user
     })
 }
 
@@ -116,9 +117,34 @@ function login(req, res){
     });
 }
 
+// Metodo para Actualizar Usuarios
+function updateUser(req, res){
+    var userId = req.params.id;
+    var update = req.body;
+
+    if(userId != req.user.sub){
+        return res.status(500).send({ message: 'No tiene permisos para actualizar el usuario' });
+    }
+
+    User.findByIdAndUpdate(userId, update, {new: true}, (err, userUpdated) => {
+        if(err){
+            res.status(500).send({
+                message: 'Error al actualizar usuario'
+            });
+        }else{
+            if (!userUpdated) {
+                res.status(404).send({message: 'No se ha podido utilizar el usuario'});
+            }else{
+                res.status(200).send({user: userUpdated});
+            }
+        }
+    });
+}
+
 // Exportar acciones
 module.exports = {
     pruebas,
     saveUser,
-    login
+    login,
+    updateUser
 };
