@@ -7,6 +7,9 @@ var path = require('path');
 // Cargar Modelos
 var Animal = require('../models/animal');
 
+// Cargar JWT
+var jwt = require('../services/jwt');
+
 // Definir acciones
 
 // Metodo de Prueba
@@ -118,12 +121,72 @@ function updateAnimal(req, res){
     });
 }
 
+// Metodo para Cargar imagen de Animal
+function uploadImage(req, res){
+    var animalId = req.params.id;
+    var file_name = 'No subido..';
+
+    if(req.files){
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('/');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'png' || file_ext == 'jpng' || file_ext == 'gif'){
+        
+            Animal.findByIdAndUpdate(animalId, {image: file_name}, {new: true}, (err, animalUpdated) => {
+                if(err){
+                    res.status(500).send({
+                        message: 'Error al actualizar usuario'
+                    });
+                }else{
+                    if (!animalUpdated) {
+                        res.status(404).send({message: 'No se ha podido utilizar el animal'});
+                    }else{
+                        res.status(200).send({ animal: animalUpdated, image: file_name });
+                    }
+                }
+            });
+
+        }else{
+            fs.unlink(file_path, (err) => {
+                if (err){
+                    res.status(200).send({ message: 'Extension no valida y fichero no borrado'});
+                }else{
+                    res.status(200).send({ message: 'Extension no valida'});
+                }
+            });
+        }
+
+    }else{
+        res.status(200).send({ message: 'No se ha subido archivos'});
+    }
+}
+
+// Funcion para Mostrar Imagen de Animal
+function getImageFile(req, res){
+    var imageFile = req.params.imageFile;
+    var path_file = './uploads/animals/'+imageFile;
+
+    fs.exists(path_file, function(exists){
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(404).send({message: 'La imagen no existe'});
+        }
+    });   
+}
+
 // Exportar acciones
 module.exports = {
     pruebasAnimal,
     saveAnimal,
     getAnimals,
     getAnimal,
-    updateAnimal
+    updateAnimal,
+    uploadImage,
+    getImageFile
     
 };
