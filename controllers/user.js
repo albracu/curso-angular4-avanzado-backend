@@ -8,7 +8,7 @@ var path = require('path');
 // Cargar Modelos
 var User = require('../models/user');
 
-// Cargar JWT
+// Cargar Servicio JWT
 var jwt = require('../services/jwt');
 
 // Definir acciones
