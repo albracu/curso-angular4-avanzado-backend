@@ -203,6 +203,6 @@ module.exports = {
     getAnimal,
     updateAnimal,
     uploadImage,
-    getImageFile
-    
+    getImageFile,
+    deleteAnimal
 };
